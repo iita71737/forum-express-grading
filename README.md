@@ -54,3 +54,5 @@ git push origin A17           # 上傳本地進度
 ## 共用帳號
 請一律設定一個共用的 root user
 root@example.com，登入密碼 12345678
+
+myheroku-name: limitless-bastion-42149
