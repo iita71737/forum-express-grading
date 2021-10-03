@@ -1,6 +1,6 @@
 const db = require('../models')
 const Restaurant = db.Restaurant
-const fs = require('fs')
+// const fs = require('fs')
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 
