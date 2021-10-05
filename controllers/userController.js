@@ -105,8 +105,9 @@ const userController = {
         }
     },
     addFavorite: (req, res) => {
+        const userId = helpers.getUser(req).id
         return Favorite.create({
-            UserId: req.user.id,
+            UserId: userId,
             RestaurantId: req.params.restaurantId
         })
             .then((restaurant) => {
@@ -114,9 +115,10 @@ const userController = {
             })
     },
     removeFavorite: (req, res) => {
+        const userId = helpers.getUser(req).id
         return Favorite.findOne({
             where: {
-                UserId: req.user.id,
+                UserId: userId,
                 RestaurantId: req.params.restaurantId
             }
         })
@@ -128,31 +130,29 @@ const userController = {
             })
     },
     addLike: (req, res) => {
+        const userId = helpers.getUser(req).id
         return Like.findOrCreate({
             where: {
-                UserId: req.user.id,
+                UserId: userId,
                 RestaurantId: req.params.restaurantId
             }
-        }).then((result) => {
+        }).then(() => {
             return res.redirect('back')
-        })
+        }).catch((err) => res.send(err))
     },
     removeLike: (req, res) => {
+        const userId = helpers.getUser(req).id
         return Like.findOne({
             where: {
-                UserId: req.user.id,
+                UserId: userId,
                 RestaurantId: req.params.restaurantId
             }
         })
-            .then(like => {
-                if (!like) {
-                    return res.redirect('back')
-                } else {
-                    like.destroy()
-                        .then(restaurant => {
-                            return res.redirect('back')
-                        })
-                }
+            .then((like) => {
+                like.destroy()
+                    .then(() => {
+                        return res.redirect('back')
+                    }).catch((err) => res.send(err))
             })
     }
 }
