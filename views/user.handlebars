@@ -1,0 +1,25 @@
+<div class="card d-flex flex-row profile-card">
+    <div class="card-img-holder my-auto mx-4">
+        <img class="profile-img" src="{{imageNull userData.image}}" alt="Card image cap">
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{{userData.name}}</h5>
+        <p class="card-text">{{userData.email}}</p>
+        {{#ifCond userData.id userId}}
+        <a href="/users/{{userData.id}}/edit" class="btn btn-primary">Edit</a>
+        {{/ifCond}}
+    </div>
+</div>
+
+<div class="card mt-3">
+    <div class="card-header">
+        {{n_comments}} 已評論餐廳
+    </div>
+    <div class="card-body">
+        {{#each comment}}
+        <a href="/restaurants/{{this.Restaurant.id}}">
+            <img class="commented-res-img" src="{{this.Restaurant.image}}" alt="">
+        </a>
+        {{/each}}
+    </div>
+</div>

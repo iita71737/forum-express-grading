@@ -14,9 +14,12 @@ const passport = require('./config/passport')
 const methodOverride = require('method-override')
 
 
-app.engine('handlebars', handlebars({ defaultLayout: 'main' }))
+app.engine('handlebars', handlebars({
+  defaultLayout: 'main',
+  helpers: require('./config/handlebars-helpers')
+}))
 app.set('view engine', 'handlebars') // 設定使用 Handlebars 做為樣板引擎
-
+app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }))
 app.use(flash())

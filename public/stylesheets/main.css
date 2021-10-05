@@ -1,0 +1,14 @@
+.profile-card {
+  height: 240px;
+}
+
+.profile-img {
+  height: 240px;
+  width: auto;
+}
+
+.commented-res-img {
+  height: 50px;
+  width: 50px;
+  margin: 5px;
+}
