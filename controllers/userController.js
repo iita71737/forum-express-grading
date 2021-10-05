@@ -6,6 +6,8 @@ const Restaurant = db.Restaurant
 const imgur = require('imgur-node-api')
 const helpers = require('../_helpers.js')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
+const Favorite = db.Favorite
+const Like = db.Like
 
 const userController = {
     signUpPage: (req, res) => {
@@ -101,6 +103,57 @@ const userController = {
                         })
                 })
         }
+    },
+    addFavorite: (req, res) => {
+        return Favorite.create({
+            UserId: req.user.id,
+            RestaurantId: req.params.restaurantId
+        })
+            .then((restaurant) => {
+                return res.redirect('back')
+            })
+    },
+    removeFavorite: (req, res) => {
+        return Favorite.findOne({
+            where: {
+                UserId: req.user.id,
+                RestaurantId: req.params.restaurantId
+            }
+        })
+            .then((favorite) => {
+                favorite.destroy()
+                    .then((restaurant) => {
+                        return res.redirect('back')
+                    })
+            })
+    },
+    addLike: (req, res) => {
+        return Like.findOrCreate({
+            where: {
+                UserId: req.user.id,
+                RestaurantId: req.params.restaurantId
+            }
+        }).then((result) => {
+            return res.redirect('back')
+        })
+    },
+    removeLike: (req, res) => {
+        return Like.findOne({
+            where: {
+                UserId: req.user.id,
+                RestaurantId: req.params.restaurantId
+            }
+        })
+            .then(like => {
+                if (!like) {
+                    return res.redirect('back')
+                } else {
+                    like.destroy()
+                        .then(restaurant => {
+                            return res.redirect('back')
+                        })
+                }
+            })
     }
 }
 module.exports = userController
