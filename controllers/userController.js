@@ -16,6 +16,7 @@ const userController = {
     },
 
     signUp: (req, res) => {
+        const image = 'https://i.imgur.com/ygO5lbd.png'
         if (req.body.passwordCheck !== req.body.password) {
             req.flash('error_messages', '兩次密碼輸入不同！')
             return res.redirect('/signup')
@@ -30,6 +31,7 @@ const userController = {
                     User.create({
                         name: req.body.name,
                         email: req.body.email,
+                        image: image,
                         password: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10), null)
                     }).then(user => {
                         req.flash('success_messages', '成功註冊帳號！')
@@ -54,15 +56,30 @@ const userController = {
     getUser: async (req, res) => {
         const id = req.params.id
         const userId = helpers.getUser(req).id
-        const user = await User.findByPk(id)
+
+        const user = await User.findByPk(id, {
+            include: [
+                { model: User, as: 'Followers', attributes: ['image', 'id'] },
+                { model: User, as: 'Followings', attributes: ['image', 'id'] },
+                { model: Restaurant, as: 'FavoritedRestaurants', attributes: ['image', 'id'] },
+            ]
+        })
         const commentData = await Comment.findAndCountAll({
             where: { UserId: id }, raw: true, nest: true, attributes: ['RestaurantId'],
-            include: { model: Restaurant, attributes: ['id', 'image'] }
+            include: [
+                { model: Restaurant, attributes: ['id', 'image'] }
+            ]
         })
 
+        const isFollowed = user.Followers.map(d => d.id).includes(helpers.getUser(req).id)
+
+        console.log('userId,req.params.userId, id::', userId, req.params.userId, id, typeof (id))
+
         return res.render('user', {
-            userData: user.toJSON(), userId,
-            comment: commentData.rows, n_comments: commentData.count
+            userData: user.toJSON(),
+            userId,
+            comment: commentData.rows, n_comments: commentData.count,
+            isFollowed
         })
     },
     editUser: async (req, res) => {
@@ -177,8 +194,9 @@ const userController = {
         })
     },
     addFollowing: (req, res) => {
+        const userId = helpers.getUser(req).id
         return Followship.create({
-            followerId: req.user.id,
+            followerId: userId,
             followingId: req.params.userId
         })
             .then((followship) => {
@@ -187,9 +205,10 @@ const userController = {
     },
 
     removeFollowing: (req, res) => {
+        const userId = helpers.getUser(req).id
         return Followship.findOne({
             where: {
-                followerId: req.user.id,
+                followerId: userId,
                 followingId: req.params.userId
             }
         })

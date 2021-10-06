@@ -1,25 +1,113 @@
-<div class="card d-flex flex-row profile-card">
-    <div class="card-img-holder my-auto mx-4">
-        <img class="profile-img" src="{{imageNull userData.image}}" alt="Card image cap">
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="p-4">
+                    <div class="d-flex flex-row">
+                        <div class=""><img class="profile-img" src="{{imageNull userData.image}}" alt="Card image cap">
+                        </div>
+                        <div class="pl-4">
+                            <h3>{{userData.name}}</h3>
+                            <h4>{{#ifCond userData.isAdmin true}}管理員{{/ifCond}}</h4>
+                            <h4>{{userData.email}}</h4>
+                            <p>
+                                <strong>
+                                    {{comment.length}}
+                                </strong> 已評論餐廳
+                                <span>|</span>
+                                <strong>
+                                    {{userData.FavoritedRestaurants.length}}
+                                </strong> 收藏的餐廳
+                            </p>
+                            <p>
+                                <strong>
+                                    {{userData.Followers.length}}
+                                </strong> following
+                                <span>(追蹤者) |</span>
+                                <strong>
+                                    {{userData.Followings.length}}
+                                </strong> followers
+                                <span>(追隨者)</span>
+                            </p>
+                            {{#ifCond userData.id userId}}
+                            <a class="btn btn-success btn-rounded text-white text-uppercase font-14 mt-3"
+                                href="/users/{{userData.id}}/edit"><i class="fa fa-edit"></i> Edit</a>
+                            {{else}}
+                            {{#if isFollowed}}
+                            <form action="/following/{{userData.id}}?_method=DELETE" method="POST"
+                                style="display: contents;">
+                                <button type="submit" class="btn btn-danger btn-sm">取消追蹤</button>
+                            </form>
+                            {{else}}
+                            <form action="/following/{{userData.id}}" method="POST" style="display: contents;">
+                                <button type="submit" class="btn btn-primary btn-sm">追蹤</button>
+                            </form>
+                            {{/if}}
+                            {{/ifCond}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="card-body">
-        <h5 class="card-title">{{userData.name}}</h5>
-        <p class="card-text">{{userData.email}}</p>
-        {{#ifCond userData.id userId}}
-        <a href="/users/{{userData.id}}/edit" class="btn btn-primary">Edit</a>
-        {{/ifCond}}
+    <br />
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card">
+                <h5 class="card-header">{{userData.Followers.length}} following(追蹤者)</h5>
+                <div class="p-4">
+                    <div class="row">
+                        {{#each userData.Followers}}
+                        <a href="../users/{{this.id}}">
+                            <img src="{{this.image}}" alt="user" width="80" height="80" class="mr-1" /></a>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="card">
+                <h5 class="card-header">{{comment.length}} 已評論餐廳</h5>
+                <div class="p-4">
+                    <div class="row">
+                        {{#each comment}}
+                        <a href="../restaurants/{{this.Restaurant.id}}">
+                            <img src="{{this.Restaurant.image}}" title="有 {{this.Restaurant.count}} 則評論" alt="user"
+                                width="80" height="80" class="mr-1" />
+                        </a>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-
-<div class="card mt-3">
-    <div class="card-header">
-        {{n_comments}} 已評論餐廳
-    </div>
-    <div class="card-body">
-        {{#each comment}}
-        <a href="/restaurants/{{this.Restaurant.id}}">
-            <img class="commented-res-img" src="{{this.Restaurant.image}}" alt="">
-        </a>
-        {{/each}}
+    <br />
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card">
+                <h5 class="card-header">{{userData.Followings.length}} followers(追隨者)</h5>
+                <div class="p-4">
+                    <div class="row">
+                        {{#each userData.Followings}}
+                        <a href="../users/{{this.id}}">
+                            <img src="{{this.image}}" alt="user" width="80" height="80" class="mr-1" /></a>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="card">
+                <h5 class="card-header">{{userData.FavoritedRestaurants.length}} 收藏的餐廳</h5>
+                <div class="p-4">
+                    <div class="row">
+                        {{#each userData.FavoritedRestaurants}}
+                        <a href="../restaurants/{{this.id}}">
+                            <img src="{{this.image}}" alt="user" width="80" height="80" class="mr-1" /></a>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
