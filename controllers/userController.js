@@ -72,9 +72,7 @@ const userController = {
         })
 
         const isFollowed = user.Followers.map(d => d.id).includes(helpers.getUser(req).id)
-
-        console.log('userId,req.params.userId, id::', userId, req.params.userId, id, typeof (id))
-
+        //console.log('userId,req.params.userId, id::', userId, req.params.userId, id, typeof (id)
         return res.render('user', {
             userData: user.toJSON(),
             userId,
