@@ -21,6 +21,7 @@ app.engine('handlebars', handlebars({
 app.set('view engine', 'handlebars') // 設定使用 Handlebars 做為樣板引擎
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }))
 app.use(flash())
 app.use(passport.initialize())
@@ -42,6 +43,6 @@ app.listen(port, () => {
 })
 
 
-require('./routes')(app, passport)
+require('./routes')(app)
 
 module.exports = app

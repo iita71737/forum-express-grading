@@ -10,18 +10,13 @@
                             <h3>{{userData.name}}</h3>
                             <h4>{{#ifCond userData.isAdmin true}}管理員{{/ifCond}}</h4>
                             <h4>{{userData.email}}</h4>
-                            <strong>
-                                {{comment.length}}
-                            </strong>已評論餐廳
-                            <strong>
-                                {{userData.FavoritedRestaurants.length}}
-                            </strong>收藏的餐廳
-                            <strong>
-                                {{userData.Followers.length}}
-                            </strong>followings
-                            <strong>
-                                {{userData.Followings.length}}
-                            </strong>followers
+                            <p class="card-text"><small><strong>{{comment.length}}</strong> 已評論餐廳</small></p>
+                            <p class="card-text"><small><strong>{{userData.FavoritedRestaurants.length}}</strong>
+                                    收藏的餐廳</small></p>
+                            <p class="card-text"><small><strong>{{userData.Followers.length}}</strong>
+                                    followings</small></p>
+                            <p class="card-text"><small><strong>{{userData.Followings.length}}</strong>
+                                    followers</small></p>
                             {{#ifCond userData.id userId}}
                             <a class="btn btn-success btn-rounded text-white text-uppercase font-14 mt-3"
                                 href="/users/{{userData.id}}/edit"><i class="fa fa-edit"></i> Edit</a>
