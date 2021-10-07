@@ -69,22 +69,15 @@ const adminController = {
         })
     },
     getUsers: (req, res) => {
-        return User.findAll({ raw: true }).then(users => {
-            return res.render('admin/users', {
-                users: users
-            })
+        adminService.getUsers(req, res, (data) => {
+            return res.render('admin/users', data)
         })
     },
     putUsers: (req, res) => {
-        return User.findByPk(req.params.id)
-            .then((user) => {
-                const isAdmin = !user.isAdmin
-                user.update({ isAdmin })
-                    .then(() => {
-                        req.flash('success_messages', 'user was successfully to update')
-                        res.redirect('/admin/users')
-                    })
-            })
+        adminService.putUsers(req, res, (data) => {
+            req.flash('success_messages', data['message'])
+            return res.redirect('/admin/users')
+        })
     }
 }
 
