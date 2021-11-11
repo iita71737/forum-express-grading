@@ -70,7 +70,11 @@ const adminController = {
     },
     getUsers: (req, res) => {
         adminService.getUsers(req, res, (data) => {
-            if (data) {
+            if (data['status'] === 'error') {
+                req.flash('error_messages', data['message'])
+                return res.redirect('back')
+            }
+            if (data['status'] === 'success') {
                 req.flash('success_messages', data['message'])
                 return res.render('admin/users', data)
             }
@@ -78,8 +82,12 @@ const adminController = {
     },
     toggleAdmin: (req, res) => {
         adminService.putUsers(req, res, (data) => {
-            if (data) {
-                req.flash('success_messages', data['message'])
+            if (data['status'] === 'error') {
+                req.flash('error_messages', '禁止變更管理者權限')
+                return res.redirect('back')
+            }
+            if (data['status'] === 'success') {
+                req.flash('success_messages', '使用者權限變更成功')
                 return res.redirect('/admin/users')
             }
         })

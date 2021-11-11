@@ -120,24 +120,28 @@ const adminService = {
     getUsers: (req, res, callback) => {
         return User.findAll({
             raw: true,
-            nest: true,
         }).then(users => {
-            callback({ users: users })
-        })
+            callback({ users: users, status: 'success', message: 'get data success' })
+        }).catch((err) => console.log(err))
     },
     putUsers: (req, res, callback) => {
         return User.findByPk(req.params.id)
             .then((user) => {
-                user.update({
-                    isAdmin: req.body.isAdmin === 'true'
-                })
-                    .then((restaurant) => {
-                        callback({
-                            status: 'success',
-                            message: 'user was successfully to update'
+                if (user.email === 'root@example.com') {
+                    callback({ status: 'error', message: '禁止變更管理者權限' })
+                }
+                else {
+                    user.isAdmin === false ? (user.isAdmin = true) : (user.isAdmin = false)
+                    return user
+                        .update({
+                            isAdmin: user.isAdmin,
                         })
-                    })
+                        .then((user) => {
+                            callback({ status: 'success', message: '使用者權限變更成功' })
+                        })
+                }
             })
+            .catch((err) => console.console.log(err))
     }
 
 }
