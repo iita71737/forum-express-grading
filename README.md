@@ -1,39 +1,19 @@
 # README
 
-<<<<<<< HEAD
-1. Fork
-2. git clone
-3. 更改專案名稱
-
-## 初始化
-### Initialize
-```
-git remote add upstream https://github.com/ALPHACamp/forum-express-grading.git  # 建立上游連線
-=======
 ## 初始化
 ### Initialize
 ```
 git clone https://github.com/your_github_name/forum-express-2020
 cd forum-express
 git remote add upstream https://github.com/ALPHACamp/forum-express-2020.git  # 建立上游連線
->>>>>>> origin/A17-test
 npm install
 ```
 
 ### 設定資料庫
 需要與 config/config.json 一致
-<<<<<<< HEAD
 
 ```
 create database forum;
-create database forum_test;
-```
-
-### 切換環境
-
-```
-export NODE_ENV=test   # 切換到測試環境，如果在等號後加其他的字串，則會切到其他的環境
-echo $NODE_ENV         # 印出目前使用的環境
 ```
 
 ### 執行測試
@@ -42,41 +22,13 @@ npm run test
 ```
 
 ## 下載作業規格
-以 A17 為例
+以 R01 為例
 
 ```
-git checkout -b A17           # 開新分支
-git merge origin/A17-test     # 下載作業規格
+git checkout -b R01           # 開新分支
+git merge origin/R01-test     # 下載作業規格
 npm run test                  # 直到綠燈全亮
 
-=======
-
-```
-create database forum;
-create database forum_test;
-```
-
-### 切換環境
-
-```
-export NODE_ENV=test   # 切換到測試環境，如果在等號後加其他的字串，則會切到其他的環境
-echo $NODE_ENV         # 印出目前使用的環境
-```
-
-### 執行測試
-```
-npm run test
-```
-
-## 下載作業規格
-以 A17 為例
-
-```
-git checkout -b A17           # 開新分支
-git merge origin/A17-test     # 下載作業規格
-npm run test                  # 直到綠燈全亮
-
->>>>>>> origin/A17-test
 git add .
 git commit -m "...."
 ```
@@ -98,12 +50,22 @@ myheroku-name: limitless-bastion-42149
 =======
 
 ```
-git push origin A17           # 上傳本地進度
+git push origin R01           # 上傳本地進度
 ```
 
 接著改成到 GitHub 來發 PR。
 
 ## 共用帳號
+<<<<<<< HEAD
 請一律設定一個共用的 root user
 root@example.com，登入密碼 12345678
 >>>>>>> origin/A17-test
+=======
+請一律設定下面 2 組帳號以利驗收：
+* 第一組帳號有 admin 權限：
+  * email: root@example.com
+  * password: 12345678
+* 第二組帳號沒有 admin 權限：
+  * email: user1@example.com
+  * password: 12345678
+>>>>>>> origin/R01-test

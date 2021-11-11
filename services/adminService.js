@@ -118,7 +118,10 @@ const adminService = {
         }
     },
     getUsers: (req, res, callback) => {
-        return User.findAll().then(users => {
+        return User.findAll({
+            raw: true,
+            nest: true,
+        }).then(users => {
             callback({ users: users })
         })
     },

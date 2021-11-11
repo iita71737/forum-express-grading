@@ -44,7 +44,7 @@ router.post('/admin/restaurants', authenticatedAdmin, upload.single('image'), ad
 router.put('/admin/restaurants/:id', authenticatedAdmin, upload.single('image'), adminController.putRestaurant)
 
 router.get('/admin/users', authenticated, adminController.getUsers)
-router.put('/admin/users/:id', authenticated, adminController.putUsers)
+router.put('/admin/users/:id', authenticated, adminController.toggleAdmin)
 
 router.get('/admin/categories', authenticatedAdmin, categoryController.getCategories)
 router.post('/admin/categories', authenticatedAdmin, categoryController.postCategory)

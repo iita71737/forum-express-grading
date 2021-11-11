@@ -70,13 +70,18 @@ const adminController = {
     },
     getUsers: (req, res) => {
         adminService.getUsers(req, res, (data) => {
-            return res.render('admin/users', data)
+            if (data) {
+                req.flash('success_messages', data['message'])
+                return res.render('admin/users', data)
+            }
         })
     },
-    putUsers: (req, res) => {
+    toggleAdmin: (req, res) => {
         adminService.putUsers(req, res, (data) => {
-            req.flash('success_messages', data['message'])
-            return res.redirect('/admin/users')
+            if (data) {
+                req.flash('success_messages', data['message'])
+                return res.redirect('/admin/users')
+            }
         })
     }
 }
